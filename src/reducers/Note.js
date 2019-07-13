@@ -13,7 +13,8 @@ export default (state={
     // colorNote:[],
     // errorColor:[],
     reminderNote:[],
-    errorReminder:[]
+    errorReminder:[],
+    changeView:false
     },action)=>{
         switch(action.type){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
             case INPUT_TITLE:
@@ -54,7 +55,8 @@ export default (state={
             case NOTE_SUCCESS:
             return{
                 ...state,
-                resultNote:action.payload
+                resultNote:action.payload,
+                changeView:true
             }
             // case COLORNOTE_ERROR:
             // return{

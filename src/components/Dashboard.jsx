@@ -50,7 +50,8 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state={
-            anchorEl:null
+            anchorEl:null,
+            search:""
         }
     }
     handleClose(){
@@ -82,6 +83,10 @@ class Dashboard extends Component {
     }
     ChangeListList(){
         this.props.changeListView()
+    }
+
+    handleSearch(){
+        
     }
     render() {
         console.log("Profile Status",this.props.openProfile)
@@ -115,6 +120,7 @@ class Dashboard extends Component {
                             </div>
                             <InputBase
                                 placeholder="Search…"
+                                onChange={()=>this.handleSearch(event)}
                                 classes={{
                                 }}
                             />

@@ -1,7 +1,9 @@
 
 import {call,put,takeEvery,all} from 'redux-saga/effects'
 import axios from 'axios';
-import { REGISTER_ASYNC, REGISTER_SUCCESS, REGISTER_ERR0R, LOGIN_ASYNC, LOGIN_SUCCESS, LOGIN_ERROR, FORGET_PASSWORD_ASYNC, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_ERROR, RESET_PASSWORD_ASYNC, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR, NOTE_ASYNC, NOTE_ERROR, NOTE_SUCCESS, GETNOTE_ASYNC, GETNOTE_SUCCESS, GETNOTE_ERROR, COLORNOTE_ASYNC, COLORNOTE_SUCCESS, COLORNOTE_ERROR, REMINDERNOTE_ASYNC, REMINDERNOTE_SUCCESS, REMINDERNOTE_ERROR, GETNOTES, ARCHIVEDNOTE_ASYNC, ARCHIVEDNOTE_SUCCESS, ARCHIVEDNOTE_ERROR, PINNEDNOTE_ASYNC, PINNEDNOTE_SUCCESS, PINNEDNOTE_ERROR, UPDATENOTE_ASYNC, UPDATENOTE_SUCCESS, UPDATENOTE_ERROR, TRASHNOTE_ASYNC, TRASHNOTE_SUCCESS, TRASHNOTE_ERROR, DELETENOTE_ASYNC, DELETENOTE_SUCCESS, DELETENOTE_ERROR, RESTORE_ASYNC, RESTORE_SUCCESS, RESTORE_ERROR, LABEL_ERROR, LABEL_SUCCESS, LABEL_ASYNC } from '../constants/actionTypes';
+import { REGISTER_ASYNC, REGISTER_SUCCESS, REGISTER_ERR0R, LOGIN_ASYNC, LOGIN_SUCCESS, LOGIN_ERROR, FORGET_PASSWORD_ASYNC, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_ERROR, RESET_PASSWORD_ASYNC, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR, NOTE_ASYNC, NOTE_ERROR, NOTE_SUCCESS, GETNOTE_ASYNC, GETNOTE_SUCCESS, GETNOTE_ERROR, COLORNOTE_ASYNC, COLORNOTE_SUCCESS, COLORNOTE_ERROR, REMINDERNOTE_ASYNC, REMINDERNOTE_SUCCESS, REMINDERNOTE_ERROR, GETNOTES, ARCHIVEDNOTE_ASYNC, ARCHIVEDNOTE_SUCCESS, ARCHIVEDNOTE_ERROR, PINNEDNOTE_ASYNC, PINNEDNOTE_SUCCESS, PINNEDNOTE_ERROR, UPDATENOTE_ASYNC, UPDATENOTE_SUCCESS, UPDATENOTE_ERROR, TRASHNOTE_ASYNC, TRASHNOTE_SUCCESS, TRASHNOTE_ERROR, DELETENOTE_ASYNC, DELETENOTE_SUCCESS, DELETENOTE_ERROR, RESTORE_ASYNC, RESTORE_SUCCESS, RESTORE_ERROR, LABEL_ERROR, LABEL_SUCCESS, LABEL_ASYNC, COLLABORATOR_ASYNC, COLLABORATOR_SUCCESS, COLLABORATOR_ERROR } from '../constants/actionTypes';
+import { getNotes } from '../services/noteservices';
+import AllNotes from '../components/AllNotes';
 
 const baseUrl = "http://34.213.106.173/api/"
 var headers = {
@@ -146,6 +148,8 @@ function* notes(action){
 
         var response=yield call(note=>axios.post(baseUrl+'notes/addNotes',formData,{headers:headers}))
         yield put({type:NOTE_SUCCESS,payload:response.data})
+        // getNotes()
+        // AllNotes()
         
     }
     catch(error){
@@ -164,32 +168,32 @@ export function* fetchNote(){
 //***********************************Get Note*********************************** */
 
 
-function* getnotes(action){
-    var data=action.payload;
-    var formData = new FormData();
-    formData.append('title', data.title); 
-    formData.append('description', data.description); 
+// function* getnotes(action){
+//     var data=action.payload;
+//     var formData = new FormData();
+//     formData.append('title', data.title); 
+//     formData.append('description', data.description); 
 
-    console.log("Body Foorm Data",formData.title);
+//     console.log("Body Foorm Data",formData.title);
 
-    try{
+//     try{
 
-        yield put({type:GETNOTE_ASYNC})
+//         yield put({type:GETNOTE_ASYNC})
 
-        var response=yield call(note=>axios.get(baseUrl+'notes/getNotesList',{headers:headers}))
-        yield put({type:GETNOTE_SUCCESS,payload:response.data})
+//         var response=yield call(note=>axios.get(baseUrl+'notes/getNotesList',{headers:headers}))
+//         yield put({type:GETNOTE_SUCCESS,payload:response.data})
         
-    }
-    catch(error){
-        console.log("Error in Get Note",error);
-        yield put({type:GETNOTE_ERROR,payload:error})
+//     }
+//     catch(error){
+//         console.log("Error in Get Note",error);
+//         yield put({type:GETNOTE_ERROR,payload:error})
         
-    }
-}
+//     }
+// }
     
-export function* getNotes(){
-    yield takeEvery('GETNOTES',getnotes)
-}
+// export function* getNotes(){
+//     yield takeEvery('GETNOTES',getnotes)
+// }
 
 //****************************************************************************************** */
 function* updateNote(action){
@@ -486,6 +490,35 @@ export function* fetchcreateLabel(){
 
 }
 
+//**********************************Collaborator******************************************* */
+
+
+function* addCollaborator(action){
+    var data=action.payload
+    console.log("Action",action);
+    
+    console.log("Collaborator Name",data);
+    // console.log(("Delete Note Value",data.isDeleted));
+    
+    const collaboratorAdd={
+        "searchWord":data
+    }
+    try{
+        yield put({type:COLLABORATOR_ASYNC})
+
+        var response=yield call(label=>axios.post(baseUrl+'user/searchUserList',collaboratorAdd,{headers:headers}))
+        yield put({type:COLLABORATOR_SUCCESS,payload:response.data})
+        console.log("My responsess",response);
+    }
+    catch(error){
+        console.log("Error in Get Note",error);
+        yield put({type:COLLABORATOR_ERROR,payload:error})
+    }
+}
+
+export function* fetchsearchCollaborator(){
+    yield takeEvery('ADD_COLLABORATOR',addCollaborator)
+}
 
 
 
@@ -527,6 +560,7 @@ export default function* rootSaga() {
     fetchupdateTrashNote(),
     fetchupdateDeleteNote(),
     fetchupdateRestoreNote(),
-    fetchcreateLabel()
+    fetchcreateLabel(),
+    fetchsearchCollaborator()
     ])
     }

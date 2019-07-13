@@ -77,7 +77,7 @@ class ShowCard extends Component{
     render(){
 
         // console.log("note in card"+JSON.stringify(this.props.note));
-        var noteID=this.props.note.id
+        // var noteID=this.props.note.id
         // console.log("Note Id",noteID);
         // console.log("Visibility Focus",!this.state.hovered);
      
@@ -89,7 +89,7 @@ class ShowCard extends Component{
                
                   {/* Close={()=<Dialog on>this.handleClose()}> */}
                         <Card style={{
-                            backgroundColor:this.props.note.color ,
+                            backgroundColor:this.props.note.color,
                             width:'100%'                           
                             }}>
                           
@@ -115,7 +115,7 @@ class ShowCard extends Component{
                             </div>
                            
                             <div>
-                                 <Chip variant="outlined " label={this.props.note.reminder.slice(0,3)} className={newStyle.remindervalue}>
+                                 <Chip variant="outlined " label={this.props.note.reminder} className={newStyle.remindervalue}>
                                 </Chip>
                                 </div>
                                 {/* <div>

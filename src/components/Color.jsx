@@ -6,6 +6,7 @@ import { INPUT_COLOR, COLORNOTES, UPDATE_COLOR } from '../constants/actionTypes'
 import {MuiThemeProvider, createMuiTheme, withStyles } from "@material-ui/core/styles";
 import obj from '../components/NoteController'
 import newStyle from '../Style.less'
+import { log } from 'util';
 
 const mapDispatchToProps = dispatch => ({
     inputColor:(value) => dispatch({
@@ -93,6 +94,8 @@ class Color extends Component{
         // console.log("Note Id",this.props.note);        
         
         const changeCardColor = colorCodesAndNames.map((colorKey) =>{
+            
+            
             return(
                 this.props.note?
                 (

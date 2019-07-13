@@ -25,7 +25,9 @@ function mapStateToProps(state) {
         archiveNotes:state.DisplayPage.archiveNotes,
         open:state.DisplayPage.open,
         isDeleted:state.AllNotes.isDeleted,
-        trashNotes:state.DisplayPage.trashNotes
+        trashNotes:state.DisplayPage.trashNotes,
+        changeView:state.Note.changeView,
+        resultNote:state.Note.resultNote,
 
         
         // color:state.AllNotes.color
@@ -46,7 +48,7 @@ class GetNotes extends Component {
             } else {
                 console.log("notes--->" + data.data)
                 this.setState({
-                    note: data.data.data.data
+                    note: [...data.data.data.data,this.props.resultNote]
                 })
             }
         })
@@ -77,7 +79,11 @@ class GetNotes extends Component {
                 if(allArray[item].isPined!==true&& allArray[item].isArchived!==true && allArray[item].isDeleted!==true){
                     return (
                         // this.setState({allNotes:true})
+                        this.props.changeView?
                         <ShowCard note={allArray[item]}/>
+                        :
+                        <ShowCard note={allArray[item]}/>
+
                     )
                 }
               

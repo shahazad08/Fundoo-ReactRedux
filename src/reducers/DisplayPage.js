@@ -1,4 +1,4 @@
-import { OPEN_MENU, CLOSE_MENU, OPEN_PROFILE,UPDATE_TITLE, CLOSE_PROFILE, OPEN_NOTE, CLOSE_NOTE, HOME_NOTE, ARCHIVENOTES, PINNEDNOTES, REMINDERNOTES, OPEN_DIALOG, CLOSE_DIALOG, OPEN_POPPER, CLOSE_POPPER, UPDATE_DESCRIPTION, TRASHNOTES, OPENDIALOG_LABEL, CHANGE_GRID_VIEW, CHANGE_LIST_VIEW } from "../constants/actionTypes";
+import { OPEN_MENU, CLOSE_MENU, OPEN_PROFILE,UPDATE_TITLE, CLOSE_PROFILE, OPEN_NOTE, CLOSE_NOTE, HOME_NOTE, ARCHIVENOTES, PINNEDNOTES, REMINDERNOTES, OPEN_DIALOG, CLOSE_DIALOG, OPEN_POPPER, CLOSE_POPPER, UPDATE_DESCRIPTION, TRASHNOTES, OPENDIALOG_LABEL, CHANGE_GRID_VIEW, CHANGE_LIST_VIEW, OPEN_COLLABORATOR, CLOSED_COLLABORATOR } from "../constants/actionTypes";
 
 export default (state={
     open:false,
@@ -15,7 +15,8 @@ export default (state={
     openPopper:false,
     trashNotes:false,
     openDialoglabel:false,
-    gridView:false
+    gridView:false,
+    openCollab:false
     },action)=>{
         switch(action.type){
             case OPEN_MENU:
@@ -119,6 +120,16 @@ export default (state={
             return{
                 ...state,
                 gridView:false
+            }
+            case OPEN_COLLABORATOR:
+            return{
+                ...state,
+                openCollab:true
+            }
+            case CLOSED_COLLABORATOR:
+            return{
+                ...state,
+                openCollab:false
             }
             default:
             return state

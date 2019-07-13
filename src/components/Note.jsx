@@ -8,6 +8,7 @@ import Color from './Color';
 import Reminder from './Reminder';
 import Archive from './Archive';
 import Pinned from './Pinned';
+import Collaborator from './Collaborator';
 import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import MenuList from '@material-ui/core/MenuList';
@@ -44,6 +45,8 @@ function mapStateToProps(state) {
     console.log("My Reminder Value",state.Note.reminder);
     console.log("Archive Positionsss",state.Note.isArchived);
     console.log("OPen Popper",state.DisplayPage.openPopper);
+    console.log('Result of View',state.Note.changeView);
+
    
     
     
@@ -64,6 +67,7 @@ function mapStateToProps(state) {
         resultNote:state.Note.resultNote,
         openPopper:state.DisplayPage.openPopper,
         open:state.DisplayPage.open
+        
     })
 }
 class Note extends Component {
@@ -192,7 +196,6 @@ class Note extends Component {
                                 {
                                     this.props.reminder?
                                     (
-                                        
                                         <Chip  variant="outlined " label={reminder} className={newStyle.remindervalue}>
                                         </Chip>
                                     ):
@@ -204,8 +207,10 @@ class Note extends Component {
                             
                             <div className={newStyle.imagesnotes}>
                             <div>
-                            <img src={require('../assests/note_collab.svg')} alt="collab" />
-                            </div>
+                            <Collaborator/>
+                            {/* <img src={require('../assests/note_collab.svg')} alt="collab" /> */}
+                            </div> 
+                                            
                             {/* <img src={require('../assests/note_reminder.svg')} alt="reminder"/> */}
                             <Reminder/>
                             

@@ -7,6 +7,7 @@ import ResetPassword from '../src/reducers/ResetPassword';
 import Note from '../src/reducers/Note';
 import AllNotes from '../src/reducers/AllNotes';
 import Label from '../src/reducers/Label';
+import Collaborator from '../src/reducers/Collaborator';
 export default combineReducers({
 Login,
 Register,
@@ -15,5 +16,6 @@ ForgetPassword,
 ResetPassword,
 Note,
 AllNotes,
-Label
+Label,
+Collaborator
 })

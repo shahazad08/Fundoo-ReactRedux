@@ -1,4 +1,4 @@
-import { COLORNOTE_ERROR, COLORNOTE_SUCCESS, UPDATE_COLOR, UPDATE_REMINDER, REMINDERNOTE_SUCCESS, REMINDERNOTE_ERROR, UPDATE_ARCHIVE, ARCHIVEDNOTE_SUCCESS, ARCHIVEDNOTE_ERROR, PINNEDNOTE_SUCCESS, PINNEDNOTE_ERROR,  UPDATE_DESCRIPTION, TRASHNOTE_ASYNC, TRASHNOTE_SUCCESS, TRASHNOTE_ERROR, INPUT_ISTRASH, DELETENOTE_SUCCESS, DELETENOTE_ERROR, RESTORE_SUCCESS, RESTORE_ERROR } from "../constants/actionTypes";
+import { COLORNOTE_ERROR, COLORNOTE_SUCCESS, UPDATE_COLOR, UPDATE_REMINDER, REMINDERNOTE_SUCCESS, REMINDERNOTE_ERROR, UPDATE_ARCHIVE, ARCHIVEDNOTE_SUCCESS, ARCHIVEDNOTE_ERROR, PINNEDNOTE_SUCCESS, PINNEDNOTE_ERROR,  UPDATE_DESCRIPTION, TRASHNOTE_ASYNC, TRASHNOTE_SUCCESS, TRASHNOTE_ERROR, INPUT_ISTRASH, DELETENOTE_SUCCESS, DELETENOTE_ERROR, RESTORE_SUCCESS, RESTORE_ERROR, GETNOTE_SUCCESS } from "../constants/actionTypes";
 
 export default (state={
     color:[],
@@ -17,7 +17,7 @@ export default (state={
     isDeleted:false,
     isDeleted:"",
     trashError:"",
-    // isDeleted:[],
+    notes:[],
     deleteNote:[],
     deleteError:[],
     restoreNote:[],
@@ -114,6 +114,11 @@ export default (state={
             return{
                 ...state,
                 restoreError:action.payload
+            }
+            case GETNOTE_SUCCESS:
+            return{
+                ...state,
+                notes:action.payload
             }
             default:
             return state
