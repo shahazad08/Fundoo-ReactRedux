@@ -5,7 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
 import { HOME_NOTE, REMINDERNOTES, ARCHIVENOTES, TRASHNOTES, OPENDIALOG_LABEL } from '../constants/actionTypes';
 import EditLabel from '../components/EditLabel';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 // import { hashHistory } from 'react-router;'
 
 
@@ -72,7 +72,7 @@ class Sidebar extends Component{
         this.props.inputNotes(false)
         this.props.inputArchive(false)
         this.props.inputTrash(false)
-        this.props.history.push('reminders')
+        // this.props.history.push('reminders')
        
     }
    
@@ -81,7 +81,7 @@ class Sidebar extends Component{
         this.props.inputNotes(false)
         this.props.inputReminder(false)
         this.props.inputTrash(false)
-        this.props.history.push('archive')
+        // this.props.history.push('archive')
     }
     handleTrashClick(){
        
@@ -128,4 +128,4 @@ class Sidebar extends Component{
         );
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Sidebar))
+export default connect(mapStateToProps,mapDispatchToProps)(Sidebar)

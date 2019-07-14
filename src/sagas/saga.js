@@ -139,6 +139,7 @@ function* notes(action){
     formData.append("reminder",data.reminder)
     formData.append("isArchived",data.isArchived);
     formData.append("isPined",data.isPined)
+    formData.append("Collaborator",data.collaborators)
     console.log("Body Foorm Data",formData.title);
  
     
@@ -168,32 +169,28 @@ export function* fetchNote(){
 //***********************************Get Note*********************************** */
 
 
-// function* getnotes(action){
-//     var data=action.payload;
-//     var formData = new FormData();
-//     formData.append('title', data.title); 
-//     formData.append('description', data.description); 
+function* getnote(action){
 
-//     console.log("Body Foorm Data",formData.title);
+    try{
 
-//     try{
+        yield put({type:GETNOTE_ASYNC})
 
-//         yield put({type:GETNOTE_ASYNC})
-
-//         var response=yield call(note=>axios.get(baseUrl+'notes/getNotesList',{headers:headers}))
-//         yield put({type:GETNOTE_SUCCESS,payload:response.data})
+        var response=yield call(note=>axios.get(baseUrl+'notes/getNotesList',{headers:headers}))
+        yield put({type:GETNOTE_SUCCESS,payload:response.data})
+        console.log("Result from Saga",response.data);
         
-//     }
-//     catch(error){
-//         console.log("Error in Get Note",error);
-//         yield put({type:GETNOTE_ERROR,payload:error})
         
-//     }
-// }
+    }
+    catch(error){
+        console.log("Error in Get Note",error);
+        yield put({type:GETNOTE_ERROR,payload:error})
+        
+    }
+}
     
-// export function* getNotes(){
-//     yield takeEvery('GETNOTES',getnotes)
-// }
+export function* fetchgetNote(){
+    yield takeEvery('GETNOTES',getnote)
+}
 
 //****************************************************************************************** */
 function* updateNote(action){
@@ -281,6 +278,7 @@ function* updateArchived(action){
 
         var response=yield call(note=>axios.post(baseUrl+'notes/archiveNotes',noteArchived,{headers:headers}))
         yield put({type:ARCHIVEDNOTE_SUCCESS,payload:response.data})
+        window.location.href = '/archive'
         //event emmiter(call for a reference)
         console.log();
     }
@@ -561,6 +559,7 @@ export default function* rootSaga() {
     fetchupdateDeleteNote(),
     fetchupdateRestoreNote(),
     fetchcreateLabel(),
-    fetchsearchCollaborator()
+    fetchsearchCollaborator(),
+    fetchgetNote()
     ])
     }

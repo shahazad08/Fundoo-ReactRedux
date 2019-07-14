@@ -4,7 +4,7 @@ import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import { TRASHNOTE, INPUT_ISTRASH, DELETENOTE, RESTORE } from '../constants/actionTypes';
+import { TRASHNOTE, INPUT_ISTRASH, DELETENOTE, RESTORE, GETNOTES } from '../constants/actionTypes';
 
 const mapDispatchToProps = dispatch => ({
     // inputTrash:(value)=>dispatch({
@@ -19,6 +19,9 @@ const mapDispatchToProps = dispatch => ({
     }),
     restoreNote:(value)=>dispatch({
         type:RESTORE,payload:value
+    }),
+    GETNOTE:()=>dispatch({
+        type:GETNOTES
     })
 })
 
@@ -49,7 +52,6 @@ class Trash extends Component{
         this.setState({
             openPopper:!this.state.openPopper,
             anchorEl:currentTarget
-            
         })
     }
 
@@ -57,6 +59,7 @@ class Trash extends Component{
         data.isDeleted=true
         // this.props.inputTrash(true)
         this.props.moveTrash(data)
+        this.props.GETNOTE(data)
         
 
         console.log("My dataaa",data.isDeleted);
@@ -66,11 +69,14 @@ class Trash extends Component{
     handleDeleteForever(data){
         data.isDeleted=true
         this.props.deleteNote(data)
+        this.props.GETNOTE(data)
+
 
     }
     handleRestore(data){
         data.isDeleted=false
         this.props.restoreNote(data)
+        this.props.GETNOTE(data)
     }
     render(){
         console.log("Deletes Note",this.props.note);

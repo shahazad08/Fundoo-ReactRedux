@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { IconButton, Tooltip, Card} from '@material-ui/core';
 import {MuiThemeProvider, createMuiTheme, withStyles } from "@material-ui/core/styles";
-import { INPUT_ISARCHIVED, ARCHIVED_NOTE, CLOSE_ERROR_TOAST, CLOSE_SUCCESS_TOAST } from '../constants/actionTypes';
+import { INPUT_ISARCHIVED, ARCHIVED_NOTE, CLOSE_ERROR_TOAST, CLOSE_SUCCESS_TOAST, GETNOTES } from '../constants/actionTypes';
 
 import Snackbar from '@material-ui/core/Snackbar';
 const mapDispatchToProps=dispatch=>({
@@ -14,6 +14,9 @@ const mapDispatchToProps=dispatch=>({
     }),
     successClose:()=>dispatch({
         type:CLOSE_SUCCESS_TOAST
+    }),
+    GETNOTE:()=>dispatch({
+        type:GETNOTES
     })
 
     // updatedArchive:(value)
@@ -135,6 +138,7 @@ class Archive extends Component{
         }
         // let value
         this.props.updateArchive(data)
+        this.props.GETNOTE(data)
         
 
     }

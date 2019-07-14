@@ -59,21 +59,18 @@ class ShowCard extends Component{
     handleOpen(event,data){
         this.props.openDialog(data)
     }
-    MouseInvisible(event){
-        
+    MouseInvisible(event){   
         this.setState(
             {
                 hovered:false
             }
         )
     }
-
     MouseVisible(event){
         this.setState({
             hovered:true
         })
     }
-
     render(){
 
         // console.log("note in card"+JSON.stringify(this.props.note));

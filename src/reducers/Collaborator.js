@@ -1,8 +1,9 @@
-import { INPUT_ADDCOLLABORATOR, COLLABORATOR_SUCCESS } from "../constants/actionTypes";
+import { INPUT_ADDCOLLABORATOR, COLLABORATOR_SUCCESS, SAVE_COLLABORATOR } from "../constants/actionTypes";
 
 export default (state = {
     addCollab:"",
-    resultCollab:""
+    resultCollab:"",
+    userList:[]
 }, action) => {
     switch (action.type) {
         case INPUT_ADDCOLLABORATOR:
@@ -14,6 +15,11 @@ export default (state = {
         return{
             ...state,
             resultCollab:action.payload
+        }
+        case SAVE_COLLABORATOR:
+        return{
+            ...state,
+            userList:action.payload
         }
             default:
             return state

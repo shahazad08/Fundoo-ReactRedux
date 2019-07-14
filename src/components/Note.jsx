@@ -3,7 +3,7 @@ import newStyle from '../Style.less';
 import Card from '@material-ui/core/Card';
 import { InputBase, Button, Chip } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { OPEN_NOTE, CLOSE_NOTE, INPUT_TITLE, INPUT_DESCRIPTION, NOTES, OPEN_POPPER, CLOSE_POPPER } from '../constants/actionTypes';
+import { OPEN_NOTE, CLOSE_NOTE, INPUT_TITLE, INPUT_DESCRIPTION, NOTES, OPEN_POPPER, CLOSE_POPPER, GETNOTES } from '../constants/actionTypes';
 import Color from './Color';
 import Reminder from './Reminder';
 import Archive from './Archive';
@@ -35,6 +35,9 @@ const mapDispatchToProps = dispatch => ({
     }),
     closePopper:()=>dispatch({
         type:CLOSE_POPPER
+    }),
+    GETNOTE:()=>dispatch({
+        type:GETNOTES
     })
 })
 function mapStateToProps(state) {
@@ -46,6 +49,10 @@ function mapStateToProps(state) {
     console.log("Archive Positionsss",state.Note.isArchived);
     console.log("OPen Popper",state.DisplayPage.openPopper);
     console.log('Result of View',state.Note.changeView);
+    console.log("Result Saga",state.AllNotes.notes);
+    console.log("User Collabroator",state.Collaborator.userList);
+    
+    
 
    
     
@@ -66,7 +73,9 @@ function mapStateToProps(state) {
         // isTrash:state.Note.isTrash,
         resultNote:state.Note.resultNote,
         openPopper:state.DisplayPage.openPopper,
-        open:state.DisplayPage.open
+        open:state.DisplayPage.open,
+        notes:state.AllNotes.notes,
+        userList:state.Collaborator.userList
         
     })
 }
@@ -99,10 +108,12 @@ class Note extends Component {
                 color:this.props.color,
                 reminder:this.props.reminder,
                 isArchived:this.props.isArchived,
-                isPined:this.props.isPined
+                isPined:this.props.isPined,
+                collaberators:this.props.userList
             }
             console.log("Title",+JSON.stringify(data));
             this.props.NOTE(data)
+            this.props.GETNOTE(data)
             // this.setState({
             //     Note:this.props.resultNote      
             // })

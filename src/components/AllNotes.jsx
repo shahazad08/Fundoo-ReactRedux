@@ -28,6 +28,7 @@ function mapStateToProps(state) {
         trashNotes:state.DisplayPage.trashNotes,
         changeView:state.Note.changeView,
         resultNote:state.Note.resultNote,
+        notes:state.AllNotes.notes
 
         
         // color:state.AllNotes.color
@@ -41,6 +42,10 @@ class GetNotes extends Component {
         }
     }
     componentDidMount() {
+    //     var x=this.props.notes.data
+    //     console.log("finaaaaaaaaa",x);
+    // }
+        
         getNotes((err, data) => {
             if (err) {
                 console.log(err);
@@ -48,7 +53,7 @@ class GetNotes extends Component {
             } else {
                 console.log("notes--->" + data.data)
                 this.setState({
-                    note: [...data.data.data.data,this.props.resultNote]
+                    note: data.data.data.data
                 })
             }
         })
@@ -57,15 +62,81 @@ class GetNotes extends Component {
     render() {
         // console.log("get notes All Notes", this.state.note);  
         // console.log("Note Id",noteID);
-        var noteID
-        let notearray = noteArray(this.state.note)
-        console.log("Exception Notess", notearray);
-        let allArray = []
-        Object.keys(notearray).map((key) => {
-            var k = key
+        // console.log("Abb Final",this.props.notes.data.data);
+        
+        if (this.props.notes.data===undefined)
+        console.log("My resultanat saga data",this.props.notes);
+        else
+        console.log("My resultanat saga datasss",this.props.notes.data.data);
 
-            allArray.push(notearray[key])
-        })
+        
+        var noteID
+        // if(this.props.notes.data===undefined)
+        // {
+        //     var notearray = noteArray(this.state.note)
+        // }
+        // else{
+        //     var notearray = noteArray(this.props.notes.data.data)
+        // }
+        
+    //     if (this.props.notes=== '')
+    //     console.log("My resultsss", this.props.notes);
+    // else
+    //     var notearrays = this.props.notes.data
+
+
+    //     if(this.props.notes.data===undefined)
+    //     {
+    //         var notearray = noteArray(this.props.notes.data)
+    //     }
+    //     else{
+    //         var notearray = noteArray(this.props.notes.data.data)
+    //     }
+
+
+
+
+
+
+
+
+
+
+        console.log("Data*****************",this.state.note);
+        
+        // let notearray = noteArray(this.state.note)
+        // console.log("Exception Notess", notearray);
+        let allArray = []
+        // if (this.props.notes.data!==undefined){
+        //     Object.keys(this.props.notes.data.data).map((key) => {
+        //         var k = key
+    
+        //         allArray.push(this.props.notes.data.data[key])
+        //     })
+        // }
+
+        if (this.props.notes.data===undefined){
+
+            Object.keys(this.state.note).map((key) => {
+                var k = key
+    
+                allArray.push(this.state.note[key])
+            })
+        
+
+        }
+        else{
+            Object.keys(this.props.notes.data.data).map((key) => {
+                var k = key
+    
+                allArray.push(this.props.notes.data.data[key])
+            })
+        }
+
+
+
+
+
         console.log("notes agetrf array==-->" + JSON.stringify(allArray));
         let archiveArray = []
         let pinnedArray=[]

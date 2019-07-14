@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { OPEN_COLLABORATOR, CLOSED_COLLABORATOR, INPUT_ADDCOLLABORATOR, ADD_COLLABORATOR } from '../constants/actionTypes';
+import { OPEN_COLLABORATOR, CLOSED_COLLABORATOR, INPUT_ADDCOLLABORATOR, ADD_COLLABORATOR, SAVE_COLLABORATOR } from '../constants/actionTypes';
 import { Card, Tooltip, Button, TextField, Chip } from '@material-ui/core';
 import { Dialog } from '@material-ui/core';
 import newStyle from '../Style.less';
 import Divider from '@material-ui/core/Divider';
+import Paper from '@material-ui/core/Paper';
+import {MuiThemeProvider, createMuiTheme, withStyles } from "@material-ui/core/styles";
 const mapDispatchToProps = dispatch => ({
     inputCollaborator: () => dispatch({
         type: OPEN_COLLABORATOR
@@ -17,10 +19,23 @@ const mapDispatchToProps = dispatch => ({
     }),
     addOncollaborator: (data) => dispatch({
         type: ADD_COLLABORATOR, payload: data
+    }),
+    userCollab:(data)=>dispatch({
+        type:SAVE_COLLABORATOR,payload:data
     })
 
 })
 
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            paperAnchorBottom: {
+              width:131,
+              height:'100%'
+            },
+        },
+    }
+})
 function mapStateToProps(state) {
     console.log("States of Collaborator", state.DisplayPage.resultCollab);
     // console.log("My result",state.Collaborator.resultCollab);
@@ -30,18 +45,15 @@ function mapStateToProps(state) {
         resultCollab: state.Collaborator.resultCollab
     })
 
-
-
-
-
-
 }
 class Collaborator extends Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
-            selectedArray: []
+            selectedArray: [],
+            anchorEl:null,
+           
         }
     }
 
@@ -63,7 +75,7 @@ class Collaborator extends Component {
 
     }
     selectCollabator(value) {
-        var array = []
+        // var array = []
         const old = this.state.selectedArray
         old.push(value)
         // array.push(value);
@@ -72,13 +84,20 @@ class Collaborator extends Component {
         })
 
     }
+    handleSave(){
+            console.log("Selec sss",this.state.selectedArray);
+            var data=this.state.selectedArray
+            this.props.userCollab(data)
 
-    handlesaveCollaborator() {
-        var data = {
-            x: this.props.openCollab
-        }
-        this.props.saveCollaborator(data)
+            
     }
+
+    // handlesaveCollaborator() {
+    //     var data = {
+    //         x: this.props.openCollab
+    //     }
+    //     this.props.saveCollaborator(data)
+    // }
 
     render() {
 
@@ -95,9 +114,6 @@ class Collaborator extends Component {
                 console.log("key=====>" + JSON.stringify(key));
                 lastArray.push(key)
 
-
-
-
             })
         }
         console.log("last array -->" + JSON.stringify(lastArray));
@@ -105,6 +121,7 @@ class Collaborator extends Component {
 
         var newArray = lastArray.map((key) => {
             console.log("new value" + key.email);
+            
             return (
                 // <Chip variant="outlined " label={key.name} style={{width:100}}></Chip>
                 <div onClick={() => this.selectCollabator(key.email)}>
@@ -122,6 +139,12 @@ class Collaborator extends Component {
 
 
         var selected = this.state.selectedArray.map((item) => {
+          
+            console.log("Selected Array",item);
+            console.log("Selected Array------",);
+            
+            
+            
             return (
 
                 <div>
@@ -131,6 +154,7 @@ class Collaborator extends Component {
 
             )
         })
+      
 
 
 
@@ -189,10 +213,13 @@ class Collaborator extends Component {
         // })
 
         return (
-            <div>
+            <MuiThemeProvider theme={theme}>
+            
                 <Tooltip title="Collaborator">
                     <img src={require('../assests/note_collab.svg')} alt="collab"
-                        onClick={() => this.handleCollabDialog()}
+                    placement="bottom-end" anchorEl={this.state.anchorEl} 
+                        onClick={() => this.handleCollabDialog()
+                        }
                     />
                 </Tooltip>
                 <Dialog open={this.props.openCollab}>
@@ -226,26 +253,31 @@ class Collaborator extends Component {
                                 </Tooltip>
                             </div>
                         </div>
-                        <div>
+                        <div >
+                     
                             selected
-    {selected}
+                            {selected}
+                   
                         </div>
                         <Divider></Divider>
+                        <div className={newStyle.paper}>
+                        <Paper>
                         {
-
                             newArray
                         }
+                        </Paper>
+                        </div>
 
 
                         <div className={newStyle.collabButtons}>
                             <Button onClick={() => this.handleCloseCollab()}>Cancel</Button>
-                            <Button>Save</Button>
+                            <Button onClick={()=>this.handleSave()}>Save </Button>
                         </div>
 
                     </Card>
 
                 </Dialog>
-            </div>
+                </MuiThemeProvider>
         )
     }
 } export default connect(mapStateToProps, mapDispatchToProps)(Collaborator);
