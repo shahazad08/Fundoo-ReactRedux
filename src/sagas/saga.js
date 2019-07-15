@@ -139,9 +139,11 @@ function* notes(action){
     formData.append("reminder",data.reminder)
     formData.append("isArchived",data.isArchived);
     formData.append("isPined",data.isPined)
-    formData.append("Collaborator",data.collaborators)
-    console.log("Body Foorm Data",formData.title);
- 
+    formData.append("collaberators",JSON.stringify(data.collaberators));
+    console.log("Body Foorm Data",formData.collaberators);
+    console.log("Body Foorm Data",data.collaberators);
+    
+
     
     try{
 

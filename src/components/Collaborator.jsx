@@ -42,7 +42,8 @@ function mapStateToProps(state) {
 
     return ({
         openCollab: state.DisplayPage.openCollab,
-        resultCollab: state.Collaborator.resultCollab
+        resultCollab: state.Collaborator.resultCollab,
+        userList:state.Collaborator.userList
     })
 
 }
@@ -52,6 +53,7 @@ class Collaborator extends Component {
         this.state = {
             open: false,
             selectedArray: [],
+            lastArray:[],
             anchorEl:null,
            
         }
@@ -72,24 +74,39 @@ class Collaborator extends Component {
         this.props.addCollaborator(searchWord)
         this.props.addOncollaborator(searchWord)
 
-
     }
     selectCollabator(value) {
         // var array = []
-        const old = this.state.selectedArray
+        console.log("My old Value",value);
+        console.log("Selected arrays",this.state.selectedArray);
+
+        var old=this.state.selectedArray
         old.push(value)
-        // array.push(value);
         this.setState({
-            selectedArray: old
+            selectedArray:old
         })
+        console.log("selecd array after push",this.state.selectedArray);
+        
+        
+        // var old=[]
+        // old = this.state.selectedArray
+        // old.push(value)
+        // array.push(value);
+        // this.setState({
+        //     selectedArray: old
+        // })
 
     }
     handleSave(){
             console.log("Selec sss",this.state.selectedArray);
             var data=this.state.selectedArray
-            this.props.userCollab(data)
+            this.props.userCollab(data)        
+            this.props.closeCollaborator()
+    }
 
-            
+    handleUpdateSave(event,data){
+        var data=this.state.selectedArray
+        this.props
     }
 
     // handlesaveCollaborator() {
@@ -101,30 +118,30 @@ class Collaborator extends Component {
 
     render() {
 
-        console.log("Daaaa", this.props.resultCollab == '');
+        // console.log("Daaaa", this.props.resultCollab == '');
 
-        if (this.props.resultCollab === '')
-            console.log("My resultsss", this.props.resultCollab);
+        if (this.props.resultCollab === ''){}
+            // console.log("My resultsss", this.props.resultCollab);
         else
             var collaboratorArray = this.props.resultCollab.data.details
-        console.log("My resultsssffffff", collaboratorArray);
+        // console.log("My resultsssffffff", collaboratorArray);
         var lastArray = []
         if (collaboratorArray !== undefined) {
             collaboratorArray.map((key) => {
-                console.log("key=====>" + JSON.stringify(key));
+                // console.log("key=====>" + JSON.stringify(key));
                 lastArray.push(key)
 
             })
         }
-        console.log("last array -->" + JSON.stringify(lastArray));
+        // console.log("last array -->" + JSON.stringify(lastArray));
 
 
         var newArray = lastArray.map((key) => {
-            console.log("new value" + key.email);
+            // console.log("new value" + JSON.stringify(key));
             
             return (
                 // <Chip variant="outlined " label={key.name} style={{width:100}}></Chip>
-                <div onClick={() => this.selectCollabator(key.email)}>
+                <div onClick={() => this.selectCollabator(key)}>
                     {key.email}
                 </div>
 
@@ -135,20 +152,18 @@ class Collaborator extends Component {
         //     });
 
 
+        
 
 
 
         var selected = this.state.selectedArray.map((item) => {
-          
             console.log("Selected Array",item);
             console.log("Selected Array------",);
-            
-            
             
             return (
 
                 <div>
-                    {item}
+                    {item.email}
                 </div>
 
 
@@ -157,64 +172,10 @@ class Collaborator extends Component {
       
 
 
-
-
-
-
-
-        // let i;
-        // for(i=0;i<collaboratorArray;i=i+1){
-        //     console.log("My Collaborator array",collaboratorArray[i]);
-
-        // }
-
-
-        // collaboratorArray.map(keys)=>{
-
-        // }
-
-        // // let allArray=[]
-        // const array=collaboratorArray.map(key)=>{
-        //     console.log("Collaborator array",key);
-        // }
-        // array = Object.keys(collaboratorArray).map((keys) => {
-
-        //     console.log("Notess Map o0f addaarraa==-->", collaboratorArray[keys]);
-        //     return(
-        //         <div>
-        //             {collaboratorArray[keys]}
-        //         </div>
-        //     )
-        // }
-
-
-        //     )
-
-        // }
-        // const array=collaboratorArray.map(keys)=>{(
-        //     return(
-        //         console.log(array[keys])
-        //     )
-
-        // )
-        // }
-
-
-        // Object.keys(collaboratorArray).map((key) => {
-        //     var k = key
-        //     console.log("Collaborator Arrays",collaboratorArray[key]);
-
-        // allArray.push(notearray[key])
-        // })
-
-        // x=Object.keys(collaboratorArray).map((key)=>{
-        //     // console.log("Collaborator Arrays",collaboratorArray[key]);
-
-        // })
-
         return (
-            <MuiThemeProvider theme={theme}>
-            
+            this.props.note?
+           <div>
+                
                 <Tooltip title="Collaborator">
                     <img src={require('../assests/note_collab.svg')} alt="collab"
                     placement="bottom-end" anchorEl={this.state.anchorEl} 
@@ -233,6 +194,67 @@ class Collaborator extends Component {
                                 </div>
 
 
+                                <div className={newStyle.collaboratorText}>
+                                    <TextField
+                                        id="standard-name"
+                                        type="text"
+                                        margin="normal"
+                                        placeholder="Person / email to share with"
+                                        onChange={(event) => this.handleCollaboratorchange(event)}
+                                    />
+
+                                </div>
+                            </div>
+                            <div className={newStyle.addCollab}>
+                                <Tooltip title="Add Collaborator">
+                                    <img src={require('../assests/label_right.svg')} alt="LabelRight"
+                                        onClick={(event) => this.handlesaveCollaborator(event)} />
+                                </Tooltip>
+                            </div>
+                        </div>
+                        <div >
+                     
+                            selected
+                            {selected}
+                   
+                        </div>
+                        <Divider></Divider>
+                        <div className={newStyle.paper}>
+                        <Paper>
+                        {
+                            newArray
+                        }
+                        </Paper>
+                        </div>
+
+
+                        <div className={newStyle.collabButtons}>
+                            <Button onClick={() => this.handleCloseCollab()}>Cancel</Button>
+                            <Button onClick={(event)=>this.handleUpdateSave(event,this.props.note)}>Save </Button>
+                        </div>
+
+                    </Card>
+
+                </Dialog>
+                </div>
+                :
+                <div>
+                <Tooltip title="Collaborator">
+                    <img src={require('../assests/note_collab.svg')} alt="collab"
+                    placement="bottom-end" anchorEl={this.state.anchorEl} 
+                        onClick={() => this.handleCollabDialog()
+                        }
+                    />
+                </Tooltip>
+                <Dialog open={this.props.openCollab}>
+                    <Card className={newStyle.collaborator}>
+                        <h2 className={newStyle.collabHeaders}>Collaborators</h2>
+                        <Divider />
+                        <div className={newStyle.myCollab}>
+                            <div className={newStyle.imgtext}>
+                                <div className={newStyle.imgesCollaborator}>
+                                    <img src={require('../assests/circleCollab.svg')} alt="collabr" />
+                                </div>
 
 
                                 <div className={newStyle.collaboratorText}>
@@ -277,7 +299,9 @@ class Collaborator extends Component {
                     </Card>
 
                 </Dialog>
-                </MuiThemeProvider>
+                </div>
+                
+                
         )
     }
 } export default connect(mapStateToProps, mapDispatchToProps)(Collaborator);

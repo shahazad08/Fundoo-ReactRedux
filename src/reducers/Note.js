@@ -9,6 +9,7 @@ export default (state={
     isArchived:false,
     isPined:false,
     isDeleted:false,
+    collaberators:[],
     resultNote:[],
     // colorNote:[],
     // errorColor:[],

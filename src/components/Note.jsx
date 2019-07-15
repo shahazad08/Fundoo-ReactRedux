@@ -111,7 +111,7 @@ class Note extends Component {
                 isPined:this.props.isPined,
                 collaberators:this.props.userList
             }
-            console.log("Title",+JSON.stringify(data));
+            console.log("Title Data",+JSON.stringify(data));
             this.props.NOTE(data)
             this.props.GETNOTE(data)
             // this.setState({
@@ -153,6 +153,29 @@ class Note extends Component {
        let reminder=JSON.stringify(rem)
        console.log("My Reminder--->  ",JSON.stringify(rem));
        console.log("Popop",this.state.open);
+
+       let collab=[]
+       collab=this.props.userList
+    //    let userEmail=JSON.stringify(collab)
+
+    let newArray=[]
+       newArray=collab.map((key) => {
+        console.log("keyd=====>" + JSON.stringify(key));
+        {
+            return(
+                <div>
+                {key.email}
+                </div>
+            )
+        }
+       
+    })
+
+
+       console.log("My Collabo--->  ",JSON.stringify(collab));
+    //    console.log("User Email",this.props.userList);
+       
+
        
 
         return (
@@ -202,7 +225,17 @@ class Note extends Component {
                                     onChange={(event)=>this.handleDescriptionChange(event)}
                                     placeholder='Take a Note...' />
                             </div>
-
+                            <div>
+                                {
+                                    this.props.userList?
+                                    (
+                                        <Chip variant="outlined" label={newArray}></Chip>
+                                    ):
+                                    (
+                                        null
+                                    )
+                                }
+                            </div>
                             <div>
                                 {
                                     this.props.reminder?

@@ -9,6 +9,7 @@ import { COLORNOTES, OPEN_DIALOG } from '../constants/actionTypes';
 import Reminder from './Reminder';
 import Archive from './Archive';
 import Pinned from './Pinned';
+import Collaborator from './Collaborator'
 import Dialog from '@material-ui/core/Dialog';
 import EditNote from '../components/EditNote';
 import Trash from '../components/Trash';
@@ -34,10 +35,8 @@ function mapStateToProps(state){
         reminder:state.Note.reminder,
         color:state.AllNotes.color,
         open:state.DisplayPage.open,
-        gridView:state.DisplayPage.gridView
-
-        
-
+        gridView:state.DisplayPage.gridView,
+        userList:state.Collaborator.userList
     })
 }
 
@@ -72,6 +71,18 @@ class ShowCard extends Component{
         })
     }
     render(){
+        var collab=this.props.userList
+        console.log("My Collabs",collab);
+
+        var newArray=collab.map((key) => {
+            return(
+                <div>
+                    {key.email}
+                </div>
+            )
+        })
+            
+        
 
         // console.log("note in card"+JSON.stringify(this.props.note));
         // var noteID=this.props.note.id
@@ -114,6 +125,12 @@ class ShowCard extends Component{
                             <div>
                                  <Chip variant="outlined " label={this.props.note.reminder} className={newStyle.remindervalue}>
                                 </Chip>
+                                
+                                {this.props.userList?
+                                <Chip variant="outlined" label={newArray}></Chip>
+                                    :
+                                    null
+                            }
                                 </div>
                                 {/* <div>
                                 {!this.props.note.reminder?(
@@ -136,7 +153,8 @@ class ShowCard extends Component{
                                 <Reminder note={this.props.note}/>
                                 </div>
                                 <div>
-                                <img src={require('../assests/note_collab.svg')} alt="collaborator" />
+                                {/* <img src={require('../assests/note_collab.svg')} alt="collaborator" /> */}
+                                <Collaborator note={this.props.note}/>
                                 </div>
                                 {/* <img src={require('../assests/note_color.svg')} alt="color" /> */}
                                 <div>
